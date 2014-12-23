@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2011 sp1 (http://www.altova.com) by End User (free.org) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns="http://www.russianpost.ru/domain/nsi-info/2014/09"
+        elementFormDefault="qualified"
+        targetNamespace="http://www.russianpost.ru/domain/nsi-info/2014/09">
+    <xs:simpleType name="GUID_Type">
+		<xs:restriction base="xs:string">
+            <xs:minLength value="32"/>
+            <xs:maxLength value="32"/>
+			<xs:pattern value="[A-F0-9]{32}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Priority_Type">
+		<xs:annotation>
+			<xs:documentation>Перечень значений приоритетов для сообщения об изменении НСИ</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:positiveInteger">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+			<xs:enumeration value="3"/>
+			<xs:enumeration value="4"/>
+			<xs:enumeration value="5"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FieldType_Type">
+		<xs:annotation>
+			<xs:documentation>Типы полей справочника</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="String"/>
+			<xs:enumeration value="Integer"/>
+			<xs:enumeration value="Float"/>
+			<xs:enumeration value="Text"/>
+			<xs:enumeration value="Boolean"/>
+			<xs:enumeration value="DateTime"/>
+			<xs:enumeration value="BLOB"/>
+			<xs:enumeration value="GUID"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Directive_Type">
+		<xs:annotation>
+			<xs:documentation>Возможные значения поля Директива для записи в пакете изменений</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Вставка"/>
+			<xs:enumeration value="Изменение"/>
+			<xs:enumeration value="Аннулирование"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LinkType_Type">
+		<xs:annotation>
+			<xs:documentation>Возможные типы связей между справочниками</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Единичная"/>
+			<xs:enumeration value="Множественная"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="NSI_Exchange_Type">
+		<xs:annotation>
+			<xs:documentation>Сообщение об изменении НСИ</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="GeneralPart" type="GeneralPart_Type"/>
+			<xs:element name="ChangePart" type="ChangePart_Type"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GeneralPart_Type">
+		<xs:annotation>
+			<xs:documentation>Раздел содержит общую информацию об изменении НСИ</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="MessageID" type="GUID_Type" use="required"/>
+		<xs:attribute name="FormatVersion" type="xs:string" use="required"/>
+		<xs:attribute name="SenderID" type="xs:string" use="required"/>
+		<xs:attribute name="Priority" type="Priority_Type" use="required"/>
+		<xs:attribute name="TimeZone" type="xs:string" use="required"/>
+		<xs:attribute name="CreatedDate" type="xs:dateTime" use="required"/>
+		<xs:attribute name="EndDate" type="xs:dateTime" use="required"/>
+		<xs:attribute name="PermanentLink" type="xs:string" use="optional"/>
+		<xs:attribute name="TotalPart" type="xs:positiveInteger" use="required"/>
+		<xs:attribute name="CurrentPart" type="xs:positiveInteger" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ChangePart_Type">
+		<xs:annotation>
+			<xs:documentation>Раздел содержит описание изменений, внесенных в справочник (справочники)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Classifier" type="Classifier_Type" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Classifier_Type">
+		<xs:annotation>
+			<xs:documentation>Раздел содержит общую информацию о справочнике, в который вносятся изменения</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ClassifierMeta" type="ClassifierMeta_Type" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="ChangePackage" type="ChangePackage_Type" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="GroupElementID" type="GUID_Type" use="required"/>
+		<xs:attribute name="ElementID" type="GUID_Type" use="required"/>
+		<xs:attribute name="ClassifierDesignation" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ClassifierMeta_Type">
+		<xs:annotation>
+			<xs:documentation>Раздел содержит описание метаинформации справочника</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="FieldInfo" type="FieldsInfo_Type" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FieldsInfo_Type">
+		<xs:annotation>
+			<xs:documentation>Описание метаинформации поля справочника</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Link" type="Link_Type" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="FieldID" type="GUID_Type" use="required"/>
+		<xs:attribute name="FieldName" type="xs:string" use="required"/>
+		<xs:attribute name="FieldType" type="FieldType_Type" use="required"/>
+		<xs:attribute name="FieldDim" type="xs:positiveInteger" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Link_Type">
+		<xs:annotation>
+			<xs:documentation>Описание метаинформации для ссылочного поля справочника (описание справочника, на который ссылается поле)</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="LinkElementID" type="GUID_Type" use="required"/>
+		<xs:attribute name="ClassifierDesignation" type="xs:string" use="required"/>
+		<xs:attribute name="LinkFieldID" type="GUID_Type" use="required"/>
+		<xs:attribute name="LinkType" type="LinkType_Type" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ChangePackage_Type">
+		<xs:annotation>
+			<xs:documentation>Раздел содержит общее описание пакета изменений к справочнику</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PackageData" type="PackageData_Type" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="PackageNumber" type="xs:positiveInteger" use="required"/>
+		<xs:attribute name="CreateDate" type="xs:dateTime" use="required"/>
+		<xs:attribute name="SignDate" type="xs:dateTime" use="required"/>
+		<xs:attribute name="CreateUserID" type="xs:string" use="required"/>
+		<xs:attribute name="SignUserID" type="xs:string" use="required"/>
+		<xs:attribute name="AppDate" type="xs:dateTime" use="required"/>
+		<xs:attribute name="AppUserID" type="xs:string" use="required"/>
+		<xs:attribute name="PackageDescr" type="xs:string" use="optional"/>
+		<xs:attribute name="ComplexPackage" type="xs:positiveInteger" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="PackageData_Type">
+		<xs:annotation>
+			<xs:documentation>Раздел содержит описание записей пакета изменений к справочнику</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PackageRec" type="PackageRec_Type" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PackageRec_Type">
+		<xs:annotation>
+			<xs:documentation>Раздел содержит описание системных полей одной записи из пакета изменений</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ObjectRec" type="ObjectRec_Type" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="Directive" type="Directive_Type" use="required"/>
+		<xs:attribute name="DocStartDate" type="xs:dateTime" use="required"/>
+		<xs:attribute name="DocEndDate" type="xs:dateTime" use="required"/>
+		<xs:attribute name="FactStartDate" type="xs:dateTime" use="optional"/>
+		<xs:attribute name="FactEndDate" type="xs:dateTime" use="optional"/>
+		<xs:attribute name="StartDoc" type="xs:string" use="optional"/>
+		<xs:attribute name="EndDoc" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ObjectRec_Type">
+		<xs:annotation>
+			<xs:documentation>Раздел содержит описание смысловых полей одной записи из пакеат изменений. Идентификаторы полей описаны </xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="FieldID" type="GUID_Type" use="required"/>
+		<xs:attribute name="FieldValue" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:element name="NSI_Exchange" type="NSI_Exchange_Type"/>
+</xs:schema>

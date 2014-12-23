@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://www.russianpost.ru/domain/relations-info/2014/09"
+            xmlns:common="http://www.russianpost.ru/domain/common/2014/09"
+            elementFormDefault="qualified"
+            targetNamespace="http://www.russianpost.ru/domain/relations-info/2014/09">
+   <xsd:import schemaLocation="common.xsd"
+               namespace="http://www.russianpost.ru/domain/common/2014/09"/>
+   <xsd:element name="RelationsInfo" type="RelationsInfo"/>
+   <xsd:complexType name="RelationsInfo">
+      <xsd:sequence>
+         <xsd:element name="BaseInfo" type="BaseInfo" minOccurs="1" maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Базовая информация</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="LinkAttrs" type="LinkAttrs" minOccurs="1" maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Атрибуты связи</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="BaseInfo">
+      <xsd:sequence>
+         <xsd:element name="BarCode1"
+                      type="common:string-len-16"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>ШИ объекта 1</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BarCode2"
+                      type="common:string-len-16"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>ШИ объекта 2</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="LinkType"
+                      type="common:integer-len-4"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Код типа связи (см. ПРИЛОЖЕНИЕ 12 Типы связей)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="LinkTypeLocId"
+                      type="common:integer-len-4"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Код типа связи (локальный справочник)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="LinkTypeLocName"
+                      type="common:string-len-16"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Наименование типа связи (локальный справочник)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="LinkDateTime"
+                      type="common:dateTime"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Дата и время формирования связи (в формате ISO 8601 CCYY-MM-DDThh:mm:ss)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="LinkTimeZone"
+                      type="common:timeZone"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Часовой пояс даты и времени формирования связи (в формате ±hh:mm по отношению к UTC)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="LinkIndex"
+                      type="common:string-len-6"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Почтовый индекс ОПС места установления связи</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="SysID"
+                      type="common:SysIDType"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Идентификатор системы (Уникальный идентификатор системы, участвующей в информационном обмене, см. ПРИЛОЖЕНИЕ 13. Идентификатор информационной системы)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="VersionNumber"
+                      type="common:VersionNumberType"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Версия TT, по которой работает система, участвующая в информационном обмене</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="LinkAttrs">
+      <xsd:sequence>
+         <xsd:element name="IndexToForBag23"
+                      type="common:string-len-6"
+                      minOccurs="0"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Почтовый индекс ОПС назначения, указывается для каждой емкости в накладной формы 23 (атрибут связи)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="IndexToForCons23a"
+                      type="common:string-len-6"
+                      minOccurs="0"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Почтовый индекс ОПС назначения, указывается для каждой включенной в форму 23а накладной (атрибут связи)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+</xsd:schema>

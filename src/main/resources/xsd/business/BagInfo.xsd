@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://www.russianpost.ru/domain/bag-info/2014/09"
+            xmlns:common="http://www.russianpost.ru/domain/common/2014/09"
+            elementFormDefault="qualified"
+            targetNamespace="http://www.russianpost.ru/domain/bag-info/2014/09">
+   <xsd:import schemaLocation="common.xsd"
+               namespace="http://www.russianpost.ru/domain/common/2014/09"/>
+   <xsd:element name="BagInfo" type="BagInfo"/>
+   <xsd:complexType name="BagInfo">
+      <xsd:sequence>
+         <xsd:element name="BaseInfo" type="BaseInfo" minOccurs="1" maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Базовая информация</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Header" type="Header" minOccurs="1" maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Заголовок</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="BaseInfo">
+      <xsd:sequence>
+         <xsd:element name="BarCode"
+                      type="common:string-len-16"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>ШИ емкости</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="OwnNumber"
+                      type="common:string-len-20"
+                      minOccurs="0"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Подавательский номер емкости</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="CreateDateTime"
+                      type="common:dateTime"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Дата и время формирования/регистрации емкости (в формате ISO 8601 CCYY-MM-DDThh:mm:ss)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="CreateTimeZone"
+                      type="common:timeZone"
+                      minOccurs="0"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Часовой пояс даты и времени создания емкости в формате ±hh:mm (по отношению к UTC)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="CreateIndex"
+                      type="common:string-len-6"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Индекс места создания емкости</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="SysID"
+                      type="common:SysIDType"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Идентификатор системы (Уникальный идентификатор системы, участвующей в информационном обмене, см. ПРИЛОЖЕНИЕ 13. Идентификатор информационной системы)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="VersionNumber"
+                      type="common:VersionNumberType"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Версия TT, по которой работает система, участвующая в информационном обмене</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="Header">
+      <xsd:sequence>
+         <xsd:element name="BagConsType"
+                      type="common:integer-len-4"
+                      minOccurs="0"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Код типа емкости/накладной (см. ПРИЛОЖЕНИЕ 14. Код типа емкости/накладной)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BagConsTypeLocId"
+                      type="common:integer-len-4"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Код типа емкости/накладной (локальный справочник)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BagConsTypeLocName"
+                      type="common:string-len-50"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Наименование типа емкости/накладной (локальный справочник)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BagType"
+                      type="common:integer-len-4"
+                      minOccurs="0"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Код вида емкости (Соответствует РТМ 0030.04-13, см. ПРИЛОЖЕНИЕ 15. Коды видов почтовых емкостей)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BagTypeLocId"
+                      type="common:integer-len-4"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Код вида емкости (локальный справочник)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BagTypeLocName"
+                      type="common:string-len-50"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Наименование вида емкости (локальный справочник)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BagCtg"
+                      type="common:integer-len-4"
+                      minOccurs="0"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Код категории емкости (см. ПРИЛОЖЕНИЕ 16. Коды категорий почтовых )</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BagCtgLocId"
+                      type="common:integer-len-4"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Код категории емкости (локальный справочник)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BagCtgLocName"
+                      type="common:string-len-50"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Наименование категории емкости (локальный справочник)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BagClass"
+                      type="common:integer-len-4"
+                      minOccurs="0"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Код класса емкости (см. ПРИЛОЖЕНИЕ 17. Код класса емкости)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BagClassLocId"
+                      type="common:integer-len-4"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Код класса емкости (локальный справочник)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BagClassLocName"
+                      type="common:string-len-50"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Наименование класса емкости (локальный справочник)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BagMarckType"
+                      type="common:integer-len-2"
+                      minOccurs="0"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Код отметки емкости (см. РТМ 0025-03-13)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BagMarckTypeLocId"
+                      type="common:integer-len-4"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Код отметки емкости (локальный справочник)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BagMarckTypeLocName"
+                      type="common:string-len-50"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Наименование отметки емкости (локальный справочник)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="TransClass"
+                      type="common:integer-len-4"
+                      minOccurs="0"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Код характера пересылки емкости (см. ПРИЛОЖЕНИЕ 11 Коды характера пересылки емкости)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="TransClassLocId"
+                      type="common:integer-len-4"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Код характера пересылки емкости (локальный справочник)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="TransClassLocName"
+                      type="common:string-len-50"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Наименование характера пересылки емкости (локальный справочник)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="TransType"
+                      type="common:integer-len-4"
+                      minOccurs="0"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Способ пересылки (см. ПРИЛОЖЕНИЕ 21. Способы пересылки емкостей)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="TransTypeLocId"
+                      type="common:integer-len-4"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Код способа пересылки (локальный справочник)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="TransTypeLocName"
+                      type="common:string-len-50"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Наименование способа пересылки (локальный справочник)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="InclCount"
+                      type="common:integer-len-10"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Количество вложений</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Weight"
+                      type="common:decimal-len-10"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Вес емкости, в кг</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="GroundWeight"
+                      type="common:decimal-len-10"
+                      minOccurs="0"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Вес наземно, в кг</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="AviaWeight"
+                      type="common:decimal-len-10"
+                      minOccurs="0"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Вес авиа, в кг</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="IndexSortTo"
+                      type="common:string-len-6"
+                      minOccurs="0"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Почтовый индекс направления</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="IndexTo"
+                      type="common:string-len-6"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Почтовый индекс назначения емкости</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="TaraNum"
+                      type="common:string-len-20"
+                      minOccurs="0"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Номер тары</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="TaraType"
+                      type="common:string-len-20"
+                      minOccurs="0"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Вид тары (см. ПРИЛОЖЕНИЕ 18. Коды типов тары)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="TaraTypeLocId"
+                      type="common:integer-len-4"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Код вида тары (локальный справочник)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="TaraTypeLocName"
+                      type="common:string-len-50"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Наименование вида тары (локальный справочник)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="SealNum"
+                      type="common:string-len-20"
+                      minOccurs="0"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Номер пломбы</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BagDefMark"
+                      type="common:integer-len-4"
+                      minOccurs="0"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Наличие отметок о браке (см. ПРИЛОЖЕНИЕ 7 Коды типов отметок о браке)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BagDefMarkLocId"
+                      type="common:integer-len-4"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Код наличия отметок о браке (локальный справочник)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BagDefMarkLocName"
+                      type="common:string-len-50"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Наличие отметок о браке (локальный справочник)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BagDamMark"
+                      type="common:integer-len-4"
+                      minOccurs="0"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Наличие отметок о повреждении, утрате (см. ПРИЛОЖЕНИЕ 8 Коды типов отметок о повреждении, утрате)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BagDamMarkLocId"
+                      type="common:integer-len-4"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Код наличия отметок о повреждении, утрате (локальный справочник)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BagDamMarkLocName"
+                      type="common:string-len-50"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Наличие отметок о повреждении, утрате (локальный справочник)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BagInvStat"
+                      type="common:integer-len-4"
+                      minOccurs="0"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Статус расследования (см. ПРИЛОЖЕНИЕ 10 Коды типов отметок о статусе расследования)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BagInvStatLocId"
+                      type="common:integer-len-4"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Код статуса расследования (локальный справочник)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BagInvStatLocName"
+                      type="common:string-len-50"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Статус расследования (локальный справочник)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="OprtrName"
+                      type="common:string-len-40"
+                      minOccurs="0"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>ФИО оператора (оператор, который заделывал емкость)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="BagSortBoxType"
+                      type="common:integer-len-4"
+                      minOccurs="0"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Код типа ящика сортировочной машины – заполняется только для сортировочных машин (см. ПРИЛОЖЕНИЕ 42. Коды типов ящика сортировочной машины).</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+</xsd:schema>

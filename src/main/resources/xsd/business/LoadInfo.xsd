@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://www.russianpost.ru/domain/load-info/2014/09"
+            xmlns:common="http://www.russianpost.ru/domain/common/2014/09"
+            elementFormDefault="qualified"
+            targetNamespace="http://www.russianpost.ru/domain/load-info/2014/09">
+   <xsd:import schemaLocation="common.xsd"
+               namespace="http://www.russianpost.ru/domain/common/2014/09"/>
+   <xsd:element name="LoadInfo" type="LoadInfo"/>
+   <xsd:complexType name="LoadInfo">
+      <xsd:sequence>
+         <xsd:element name="BaseInfo" type="BaseInfo" minOccurs="1" maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Базовая информация</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Data" type="Data" minOccurs="1" maxOccurs="unbounded">
+            <xsd:annotation>
+               <xsd:documentation>Данные</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="BaseInfo">
+      <xsd:sequence>
+         <xsd:element name="OperDateTimeBeg"
+                      type="common:dateTime"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Дата и время начала периода, статистика по которому содержится в сообщении</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="OperDateTimeEnd"
+                      type="common:dateTime"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Дата и время окончания периода, статистика по которому содержится в сообщении</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="OperTimeZone"
+                      type="common:timeZone"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Часовой пояс даты и времени начала/окончания периода формирования, в котором работает система, участвующая в информационном обмене</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="SysID"
+                      type="common:SysIDType"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Уникальный идентификатор системы, участвующей в информационном обмене</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="VersionNumber"
+                      type="common:VersionNumberType"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Версия TT, по которой работает система, участвующая в информационном обмене</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="Data">
+      <xsd:sequence>
+         <xsd:element name="ObjType"
+                      type="common:string-len-10"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Тип объекта (см. таблицу «Типы объектов», столбец «Код значения»)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="ObjForm"
+                      type="common:string-len-10"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Вид сущности (см. таблицу «Виды сущностей», столбец «Код значения»)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="MsrType"
+                      type="common:string-len-10"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Тип действия (см. таблицу «Типы действия», столбец «Код значения»)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="OperType"
+                      type="common:integer-len-20"
+                      minOccurs="0"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Тип операции (заполняется только если «Тип объекта» Сущность в источнике или Сущность в сообщении, и «Вид сущности» Операция)</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="ObjQnty"
+                      type="common:integer-len-20"
+                      minOccurs="1"
+                      maxOccurs="1">
+            <xsd:annotation>
+               <xsd:documentation>Количество объектов</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.russianpost.ru/logistic/transport" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.russianpost.ru/logistic/transport" elementFormDefault="qualified">
+	<xs:include schemaLocation="common.xsd"/>
+	<xs:element name="GetMessageResult">
+		<xs:complexType>
+			<xs:annotation>
+				<xs:documentation>Результат запроса нового сообщения из транспорта</xs:documentation>
+			</xs:annotation>
+			<xs:complexContent>
+				<xs:extension base="ComplexResultType">
+					<xs:sequence>
+						<xs:element name="Message" type="MessageType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Запрашиваемое сообщение</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

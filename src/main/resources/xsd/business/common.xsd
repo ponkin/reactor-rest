@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns="http://www.russianpost.ru/domain/common/2014/09"
+        elementFormDefault="qualified"
+        targetNamespace="http://www.russianpost.ru/domain/common/2014/09">
+
+    <xsd:simpleType name="string-len-1">
+        <xsd:annotation>
+            <xsd:documentation>
+                Строка длиной один символ. Максимальная длина указана четыре символова, чтобы в случае, если система-отправитель не может заполнить обязательное поле, указать значение по умолчанию. Значение по умолчанию "null"
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="4" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="string-len-4">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="4" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="string-len-6">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="6" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="string-len-7">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="7" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="string-len-8">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="8" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="string-len-9">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="9" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="string-len-10">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="10" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="string-len-12">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="12" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="string-len-13">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="13" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="string-len-14">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="14" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="string-len-15">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="15" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="string-len-16">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="16" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="string-len-20">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="20" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="string-len-25">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="25" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="string-len-38">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="38" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="string-len-40">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="40" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="string-len-50">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="50" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="string-len-100">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="100" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="string-len-200">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="200" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="string-len-500">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="500" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="string-len-1000">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="1000" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="integer-len-1">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="-1" />
+            <xsd:maxInclusive value="9" />
+            <xsd:totalDigits value="1" />
+            <xsd:pattern value="[+\-\d]{1,2}" />
+            <xsd:whiteSpace value="collapse" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="integer-len-2">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="-1" />
+            <xsd:maxInclusive value="99" />
+            <xsd:totalDigits value="2" />
+            <xsd:pattern value="[+\-\d]{1,2}" />
+            <xsd:whiteSpace value="collapse" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="integer-len-4">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="-1" />
+            <xsd:maxInclusive value="9999" />
+            <xsd:totalDigits value="4" />
+            <xsd:pattern value="[+\-\d]{1,4}" />
+            <xsd:whiteSpace value="collapse" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="integer-len-6">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="-1" />
+            <xsd:maxInclusive value="999999" />
+            <xsd:totalDigits value="6" />
+            <xsd:pattern value="[+\-\d]{1,6}" />
+            <xsd:whiteSpace value="collapse" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="integer-len-8">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="-1" />
+            <xsd:maxInclusive value="99999999" />
+            <xsd:totalDigits value="8" />
+            <xsd:pattern value="[+\-\d]{1,8}" />
+            <xsd:whiteSpace value="collapse" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="integer-len-10">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="-1" />
+            <xsd:maxInclusive value="9999999999" />
+            <xsd:totalDigits value="10" />
+            <xsd:pattern value="[+\-\d]{1,10}" />
+            <xsd:whiteSpace value="collapse" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="integer-len-12">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="-1" />
+            <xsd:maxInclusive value="999999999999" />
+            <xsd:totalDigits value="12" />
+            <xsd:pattern value="[+\-\d]{1,12}" />
+            <xsd:whiteSpace value="collapse" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="integer-len-13">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="-1" />
+            <xsd:maxInclusive value="9999999999999" />
+            <xsd:totalDigits value="12" />
+            <xsd:pattern value="[+\-\d]{1,13}" />
+            <xsd:whiteSpace value="collapse" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="integer-len-14">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="-1" />
+            <xsd:maxInclusive value="99999999999999" />
+            <xsd:totalDigits value="14" />
+            <xsd:pattern value="[+\-\d]{1,14}" />
+            <xsd:whiteSpace value="collapse" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="integer-len-16">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="-1" />
+            <xsd:maxInclusive value="9999999999999999" />
+            <xsd:totalDigits value="16" />
+            <xsd:pattern value="[+\-\d]{1,16}" />
+            <xsd:whiteSpace value="collapse" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="integer-len-20">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="-1" />
+            <xsd:maxInclusive value="99999999999999999999" />
+            <xsd:totalDigits value="20" />
+            <xsd:pattern value="[+\-\d]{1,20}" />
+            <xsd:whiteSpace value="collapse" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="integer-len-38">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="-1" />
+            <xsd:maxInclusive value="99999999999999999999999999999999999999" />
+            <xsd:totalDigits value="38" />
+            <xsd:pattern value="[+\-\d]{1,38}" />
+            <xsd:whiteSpace value="collapse" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="integer-len-200">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="-1" />
+            <xsd:maxInclusive
+                    value="99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999" />
+            <xsd:totalDigits value="200" />
+            <xsd:pattern value="[+\-\d]{1,200}" />
+            <xsd:whiteSpace value="collapse" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="decimal-len-10">
+        <xsd:restriction base="xsd:decimal">
+            <xsd:minInclusive value="-1" />
+            <xsd:maxInclusive value="9999999999" />
+            <xsd:totalDigits value="10" />
+            <xsd:pattern value="[+\-\d\.]{1,10}" />
+            <xsd:whiteSpace value="collapse" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="decimal-len-16">
+        <xsd:restriction base="xsd:decimal">
+            <xsd:minInclusive value="-1" />
+            <xsd:maxInclusive value="9999999999999999" />
+            <xsd:totalDigits value="16" />
+            <xsd:pattern value="[+\-\d\.]{1,16}" />
+            <xsd:whiteSpace value="collapse" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="time">
+        <xsd:annotation>
+            <xsd:documentation>Строгий формат: 21:32:52</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:time">
+            <xsd:whiteSpace value="collapse" />
+            <xsd:pattern value="\d{2}:\d{2}(:\d{2})?" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="dateTime">
+        <xsd:annotation>
+            <xsd:documentation>Формат: 2013-10-26T21:32:52. Значение по умолчанию 1900-01-01T00:00:0.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:dateTime">
+            <xsd:pattern value="\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}" />
+            <xsd:whiteSpace value="collapse" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="date">
+        <xsd:annotation>
+            <xsd:documentation>Формат: 2013-10-26</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:date">
+            <xsd:pattern value="\d{4}-\d{2}-\d{2}" />
+            <xsd:whiteSpace value="collapse" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="timeZone">
+        <xsd:annotation>
+            <xsd:documentation>Форматы: +03:00 или -10:30</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="6" />
+            <xsd:pattern value="[+-]\d{2}:\d{2}" />
+            <xsd:whiteSpace value="collapse" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="SysIDType">
+        <xsd:annotation>
+            <xsd:documentation>Формат: WP1.18.01.0404.19.05.2011.12:58:35.125475</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="\w{1,2}\d{1,2}\.\d{1,2}\.\d{1,2}\.\d{1,4}\.\d{2}\.\d{2}\.\d{4}\.\d{2}:\d{2}:\d{2}\.\d{6}" />
+            <xsd:whiteSpace value="collapse" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="VersionNumberType">
+        <xsd:annotation>
+            <xsd:documentation>Версия TT, по которой работает система, участвующая в информационном обмене. Формат VVV.NNN, где VVV – это номер релиза, а NNN – это номер версии технических требований. VVV и NNN длиной от 1 до 3 цифр.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="\d{1,3}\.\d{1,3}" />
+            <xsd:whiteSpace value="collapse" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+</xsd:schema>

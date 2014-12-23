@@ -36,6 +36,8 @@ import reactor.net.tcp.spec.TcpServerSpec;
 import reactor.spring.context.config.EnableReactor;
 
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import java.nio.file.Path;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
@@ -64,6 +66,14 @@ public class Application implements CommandLineRunner {
         return reactor;
     }
 
+    @Bean
+    public JAXBContext jaxbContext() throws JAXBException {
+        return JAXBContext.newInstance("com.luxoft.rp.model");
+    }
+
+    @Autowired
+    DasServiceRestApi api;
+
 
     @Bean
     public NetServer<FullHttpRequest, FullHttpResponse> restApi(Environment env,
@@ -80,9 +90,13 @@ public class Application implements CommandLineRunner {
                     Stream<FullHttpRequest> in = ch.in();
 
                     // serve "sendMessage"
-                    in.filter((FullHttpRequest req) -> DasServiceRestApi.SEND_MESSAGE_URI.equals(req.getUri()))
-                            .when(Throwable.class, DasServiceRestApi.errorHandler(ch))
-                            .consume(DasServiceRestApi.sendMessage(ch, thumbnail, reactor));
+                    try {
+                        in.filter((FullHttpRequest req) -> DasServiceRestApi.SEND_MESSAGE_URI.equals(req.getUri()))
+                                .when(Throwable.class, DasServiceRestApi.errorHandler(ch))
+                                .consume(api.sendMessage(ch));
+                    } catch (JAXBException e) {
+                        e.printStackTrace();
+                    }
 
 
                     // shutdown this demo app

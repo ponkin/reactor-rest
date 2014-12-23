@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.russianpost.ru/logistic/transport" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.russianpost.ru/logistic/transport" elementFormDefault="qualified">
+    <xs:complexType name="ResultType">
+        <xs:annotation>
+            <xs:documentation>Результат выполнения операции</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Code" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Код результата</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Message" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Текст результата</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ComplexResultType">
+        <xs:annotation>
+            <xs:documentation>Составной результат выполнения операции</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Result" type="ResultType">
+                <xs:annotation>
+                    <xs:documentation>Результат выполнения операции</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="IDType">
+        <xs:annotation>
+            <xs:documentation>Идентификатор сообщения, идентификатор транспортного сообщения</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:minLength value="32"/>
+            <xs:maxLength value="32"/>
+            <xs:pattern value="[A-F0-9]{32}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="SystemCodeType">
+        <xs:annotation>
+            <xs:documentation>Код системы отправителя или получателя</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="20"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="MessageType">
+        <xs:annotation>
+            <xs:documentation>Сообщение</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Header" type="HeaderType">
+                <xs:annotation>
+                    <xs:documentation>Заголовок сообщения</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Body" type="BodyType">
+                <xs:annotation>
+                    <xs:documentation>Тело сообщения</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="HeaderType">
+        <xs:annotation>
+            <xs:documentation>Заголовок сообщения</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="MessageInfo" type="MessageInfoType">
+                <xs:annotation>
+                    <xs:documentation>Информация о сообщении</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MessageInfoType">
+        <xs:annotation>
+            <xs:documentation>Информация о сообщении</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="MessageID" type="IDType">
+                <xs:annotation>
+                    <xs:documentation>Уникальный идентификатор транспортного сообщения. Этот идентификатор генерируется для каждого транспортного сообщения, передаваемого в рамках Подсистемы Транспорта.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SenderID" type="SystemCodeType">
+                <xs:annotation>
+                    <xs:documentation>Индекс ОПС отправителя</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ReceiverID" type="SystemCodeType" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Индекс ОПС получателя</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SenderType" type="string-len-3">
+                <xs:annotation>
+                    <xs:documentation>Тип отправителя: NSI или  OPS</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="DataType" type="string-len-2">
+                <xs:annotation>
+                    <xs:documentation>Номер типа сообщения из п. 7.2 Структура тела сообщений разных типов</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SysID" type="SysIDType">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор системы (Уникальный идентификатор
+                        системы, участвующей в информационном обмене, см. ПРИЛОЖЕНИЕ 13.
+                        Идентификатор информационной системы)
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="DocForm" type="integer-len-4" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Код по перечню документов (см. ПРИЛОЖЕНИЕ 20.
+                        Перечень документов)
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="BodyType">
+        <xs:annotation>
+            <xs:documentation>Тело сообщения</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Content" type="xs:base64Binary">
+                <xs:annotation>
+                    <xs:documentation>Информация, предназначенная для передачи</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="NsiMessageType">
+        <xs:annotation>
+            <xs:documentation>Сообщение НСИ</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Header" type="NsiHeaderType">
+                <xs:annotation>
+                    <xs:documentation>Заголовок сообщения НСИ</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Body" type="BodyType">
+                <xs:annotation>
+                    <xs:documentation>Тело сообщения</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="NsiHeaderType">
+        <xs:annotation>
+            <xs:documentation>Заголовок сообщения НСИ</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="MessageID" type="IDType">
+                <xs:annotation>
+                    <xs:documentation>Уникальный идентификатор транспортного сообщения НСИ. Этот идентификатор генерируется для каждого транспортного сообщения НСИ, передаваемого в рамках Подсистемы Транспорта.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ChangeDate" type="DateTime">
+                <xs:annotation>
+                    <xs:documentation>Дата обновления данных НСИ</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ChangeNumber" type="integer-len-9">
+                <xs:annotation>
+                    <xs:documentation>Номер обновления данных НСИ</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Dictionary" type="string-len-20">
+                <xs:annotation>
+                    <xs:documentation>Обозначение справочника</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="SysIDType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\w{1,2}\d{1,2}\.\d{1,2}\.\d{1,2}\.\d{1,4}\.\d{2}\.\d{2}\.\d{4}\.\d{2}:\d{2}:\d{2}\.\d{6}" />
+            <xs:whiteSpace value="collapse" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="integer-len-4">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="9999"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="integer-len-9">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="999999999"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="string-len-2">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="2"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="string-len-3">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="3"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="string-len-20">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="20"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="DateTime">
+        <xs:annotation>
+            <xs:documentation>Формат: 2013-10-26T21:32:52</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:dateTime">
+            <xs:pattern value="\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}" />
+            <xs:whiteSpace value="collapse" />
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

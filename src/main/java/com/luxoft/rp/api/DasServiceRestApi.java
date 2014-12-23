@@ -1,12 +1,17 @@
 package com.luxoft.rp.api;
 
+import com.luxoft.rp.service.LogisticFront;
 import io.netty.buffer.ByteBuf;
 import io.netty.handler.codec.http.*;
-import reactor.core.Reactor;
-import reactor.event.Event;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import reactor.function.Consumer;
 import reactor.net.NetChannel;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousFileChannel;
@@ -14,7 +19,6 @@ import java.nio.channels.CompletionHandler;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static  io.netty.handler.codec.http.HttpHeaders.Names.*;
 
@@ -24,6 +28,7 @@ import static  io.netty.handler.codec.http.HttpHeaders.Names.*;
  * @author Alexey Ponkin
  * @version 1
  */
+@Service
 public class DasServiceRestApi {
 
     public static final String SEND_MESSAGE_URI = "/sendMessage";
@@ -38,11 +43,14 @@ public class DasServiceRestApi {
         void failure(Throwable exc, Object attachment);
 
     }
+    @Autowired
+    public LogisticFront front;
 
+    @Autowired
+    private JAXBContext jaxbContext;
 
-    public static Consumer<FullHttpRequest> sendMessage(NetChannel<FullHttpRequest, FullHttpResponse> channel,
-                                                        AtomicReference<Path> thumbnail,
-                                                        Reactor reactor) {
+    public Consumer<FullHttpRequest> sendMessage(NetChannel<FullHttpRequest, FullHttpResponse> channel) throws JAXBException {
+        final Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         return req -> {
             if (req.getMethod() != HttpMethod.POST) {
                 channel.send(badRequest(req.getMethod() + " not supported for this URI"));
@@ -56,10 +64,21 @@ public class DasServiceRestApi {
 
                     DefaultFullHttpResponse resp = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
                             HttpResponseStatus.OK);
-                    resp.content().writeBytes("<test>success</test>".getBytes());
-                    resp.headers().set(CONTENT_TYPE, "application/xml");
-                    resp.headers().set(CONTENT_LENGTH, resp.content().readableBytes());
-                    channel.send(resp);
+                    ByteArrayOutputStream out = new ByteArrayOutputStream(256);
+                    try {
+                        jaxbMarshaller.marshal(front.sendMessage(), out);
+                        resp.content().writeBytes(out.toByteArray());
+                        resp.headers().set(CONTENT_TYPE, "application/xml");
+                        resp.headers().set(CONTENT_LENGTH, resp.content().readableBytes());
+                    } catch (JAXBException e) {
+                        resp = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
+                                HttpResponseStatus.INTERNAL_SERVER_ERROR);
+                        resp.content().writeBytes(e.getMessage().getBytes());
+                        resp.headers().set(CONTENT_TYPE, "test/plain");
+                        resp.headers().set(CONTENT_LENGTH, resp.content().readableBytes());
+                    }finally{
+                        channel.send(resp);
+                    }
 
                 }, (Throwable exc, Object attachment) -> {
                     DefaultFullHttpResponse resp = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
