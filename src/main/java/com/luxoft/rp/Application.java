@@ -22,8 +22,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import reactor.core.Environment;
 import reactor.core.Reactor;
 import reactor.core.composable.Stream;
@@ -38,9 +36,7 @@ import reactor.spring.context.config.EnableReactor;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import java.nio.file.Path;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static reactor.event.selector.Selectors.$;
 
@@ -52,17 +48,22 @@ import static reactor.event.selector.Selectors.$;
 @Configuration
 @ComponentScan
 @EnableReactor
-@PropertySource("classpath:config.properties")
 @Slf4j
 public class Application implements CommandLineRunner {
 
-    @Value("${http.port}")
+    @Value("${http-port}")
     public int port;
+
+    @Value("${http-host}")
+    public String host;
+
+    @Autowired
+    private KafkaStorage ds;
 
     @Bean
     public Reactor reactor(Environment env) {
-        Reactor reactor = Reactors.reactor(env, Environment.THREAD_POOL);
-        //reactor.receive($("thumbnail"), new BufferedImageThumbnailer(250));
+        Reactor reactor = Reactors.reactor(env, Environment.RING_BUFFER);
+        reactor.receive($("save"), ds);
         return reactor;
     }
 
@@ -80,26 +81,20 @@ public class Application implements CommandLineRunner {
                                                                 ServerSocketOptions opts,
                                                                 Reactor reactor,
                                                                 CountDownLatch closeLatch) throws InterruptedException {
-        AtomicReference<Path> thumbnail = new AtomicReference<>();
 
         NetServer<FullHttpRequest, FullHttpResponse> server = new TcpServerSpec<FullHttpRequest, FullHttpResponse>(
                 NettyTcpServer.class)
-                .env(env).dispatcher("sync").options(opts)
+                .env(env).dispatcher("sync").options(opts).listen(host, port)
                 .consume(ch -> {
                     // filter requests by URI via the input Stream
                     Stream<FullHttpRequest> in = ch.in();
 
-                    // serve "sendMessage"
-                    try {
-                        in.filter((FullHttpRequest req) -> DasServiceRestApi.SEND_MESSAGE_URI.equals(req.getUri()))
-                                .when(Throwable.class, DasServiceRestApi.errorHandler(ch))
-                                .consume(api.sendMessage(ch));
-                    } catch (JAXBException e) {
-                        e.printStackTrace();
-                    }
+                    in.filter((FullHttpRequest req) -> DasServiceRestApi.SEND_MESSAGE_URI.equals(req.getUri()))
+                            .when(Throwable.class, DasServiceRestApi.errorHandler(ch))
+                            .consume(api.sendMessage(ch, reactor));
 
 
-                    // shutdown this demo app
+                    // shutdown this app
                     in.filter((FullHttpRequest req) -> "/shutdown".equals(req.getUri()))
                             .consume(req -> closeLatch.countDown());
                 })
@@ -116,12 +111,6 @@ public class Application implements CommandLineRunner {
         return new NettyServerSocketOptions()
                 .pipelineConfigurer(pipeline -> pipeline.addLast(new HttpServerCodec())
                         .addLast(new HttpObjectAggregator(16 * 1024 * 1024)));
-    }
-
-    //You need this
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
     }
 
 

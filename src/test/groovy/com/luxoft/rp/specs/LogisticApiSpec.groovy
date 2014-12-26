@@ -9,28 +9,34 @@ import spock.lang.Specification
 import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.Method.*
 
+/**
+ * Integration tests
+ */
 @ContextConfiguration(loader = SpringApplicationContextLoader.class, classes = Application.class)
 class LogisticApiSpec extends Specification {
+
     def "sendMessage should return 200 & a message with the status code S001"() {
         setup:
         def primerEndpoint = new RESTClient('http://localhost:3000/sendMessage')
         when:
-        def resp = primerEndpoint.request(POST, XML) {
-
-            body = {
-                // Arbitrary xml content
-                message {
-                    sender 'Bob'
-                    text 'test'
+        def resp = primerEndpoint.post(
+                contentType: XML,
+                requestContentType: XML,
+                body:  {
+                    auth {
+                        user 'Bob'
+                        password 'pass'
+                    }
                 }
-            }
-        }
+        )
 
         then:
         with(resp) {
             status == 200
             contentType == "application/xml"
-            data == 'S0001'
+            data.name() == "SendMessageResult"
+            data.Result.Code == "S0001"
         }
+
     }
 }
