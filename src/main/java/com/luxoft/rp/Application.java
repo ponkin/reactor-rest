@@ -8,6 +8,8 @@ package com.luxoft.rp;
  */
 
 import com.luxoft.rp.api.DasServiceRestApi;
+import com.luxoft.rp.model.SendMessageResult;
+import io.netty.buffer.ByteBuf;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpObjectAggregator;
@@ -26,6 +28,8 @@ import reactor.core.Environment;
 import reactor.core.Reactor;
 import reactor.core.composable.Stream;
 import reactor.core.spec.Reactors;
+import reactor.event.Event;
+import reactor.function.Function;
 import reactor.net.NetServer;
 import reactor.net.config.ServerSocketOptions;
 import reactor.net.netty.NettyServerSocketOptions;
@@ -58,12 +62,12 @@ public class Application implements CommandLineRunner {
     public String host;
 
     @Autowired
-    private KafkaStorage ds;
+    private Function<Event<ByteBuf>, SendMessageResult> messageStorage;
 
     @Bean
     public Reactor reactor(Environment env) {
         Reactor reactor = Reactors.reactor(env, Environment.RING_BUFFER);
-        reactor.receive($("save"), ds);
+        reactor.receive($("save"), messageStorage);
         return reactor;
     }
 

@@ -49,10 +49,9 @@ public class KafkaStorage implements Function<Event<ByteBuf>, SendMessageResult>
 
         ByteBuf content = byteBufferEvent.getData();
         byte[] bytes = new byte[content.readableBytes()];
-        log.debug("***sendMessage***:{}", new String(bytes));
         content.readBytes(bytes);
         content.release();
-
+        log.debug("***sendMessage***:{}", new String(bytes));
         producer.send(new KeyedMessage<>(topic, bytes));
         result.setResult(builder.ok().build());
         return result;

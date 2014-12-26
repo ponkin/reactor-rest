@@ -4,6 +4,7 @@ import com.luxoft.rp.Application
 import groovyx.net.http.RESTClient
 import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.test.context.ContextConfiguration
+import spock.lang.Ignore
 import spock.lang.Specification
 
 import static groovyx.net.http.ContentType.*
@@ -15,6 +16,7 @@ import static groovyx.net.http.Method.*
 @ContextConfiguration(loader = SpringApplicationContextLoader.class, classes = Application.class)
 class LogisticApiSpec extends Specification {
 
+    @Ignore
     def "sendMessage should return 200 & a message with the status code S001"() {
         setup:
         def primerEndpoint = new RESTClient('http://localhost:3000/sendMessage')
